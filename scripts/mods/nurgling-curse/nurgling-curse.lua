@@ -46,18 +46,6 @@ mod.on_game_state_changed = function(status, state_name)
         mod.nurgling_count = 50
     end
 end
--- mod:hook_safe(UnitSpawner, "spawn_network_unit", function (self, unit_name, unit_template_name, extension_init_data, position, rotation, material)
---     local level_name = Managers.level_transition_handler:get_current_level_keys()
---         if level_name == "inn_level" then
---             local nurgling_breed = Breeds['critter_nurgling']
---             local spawned_unit = Managers.state.conflict:spawn_queued_unit(nurgling_breed, init_spawn, rot, "Misc", nil, nil, nil)
---             local i = 0
---             while (i < mod.nurgling_count) do
---                 Managers.state.conflict:spawn_queued_unit(nurgling_breed, spawn_points[math.random(#spawn_points)], rot, "Misc", nil, nil, nil)
---                 i = i +1
---             end
---         end
--- end)
 
 mod:hook(StatisticsUtil, "register_kill", function(func, victim_unit, damage_data, statistics_db, is_server)
     local breed_killed = Unit.get_data(victim_unit, "breed")
