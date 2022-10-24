@@ -48,18 +48,21 @@ mod.on_game_state_changed = function(status, state_name)
 end
 
 mod:hook(StatisticsUtil, "register_kill", function(func, victim_unit, damage_data, statistics_db, is_server)
-    local breed_killed = Unit.get_data(victim_unit, "breed")
-    local breed_killed_name = breed_killed.name
-    breed_killed.debug_spawn_optional_data = breed_killed.debug_spawn_optional_data or {}
-	breed_killed.debug_spawn_optional_data.ignore_breed_limits = true
-	breed_killed.debug_spawn_optional_data.enhancements = nil
-    if breed_killed_name == "critter_nurgling" then
-        mod.nurgling_count = mod.nurgling_count + 7
-        local i = 0
-        while (i < 7) do
-            Managers.state.conflict:spawn_queued_unit(breed_killed, spawn_points[math.random(#spawn_points)], rot, breed_killed.debug_spawn_category or "debug_spawn", 
-            nil, nil, breed_killed.debug_spawn_optional_data)
-            i = i +1
+    local level_name = Managers.level_transition_handler:get_current_level_keys()
+    if level_name == "inn_level" then
+        local breed_killed = Unit.get_data(victim_unit, "breed")
+        local breed_killed_name = breed_killed.name
+        breed_killed.debug_spawn_optional_data = breed_killed.debug_spawn_optional_data or {}
+        breed_killed.debug_spawn_optional_data.ignore_breed_limits = true
+        breed_killed.debug_spawn_optional_data.enhancements = nil
+        if breed_killed_name == "critter_nurgling" then
+            mod.nurgling_count = mod.nurgling_count + 7
+            local i = 0
+            while (i < 7) do
+                Managers.state.conflict:spawn_queued_unit(breed_killed, spawn_points[math.random(#spawn_points)], rot, breed_killed.debug_spawn_category or "debug_spawn", 
+                nil, nil, breed_killed.debug_spawn_optional_data)
+                i = i +1
+            end
         end
     end 
     return func(victim_unit, damage_data, statistics_db, is_server)
