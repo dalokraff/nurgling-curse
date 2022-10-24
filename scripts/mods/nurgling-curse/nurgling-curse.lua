@@ -32,7 +32,7 @@ mod.nurgling_count = mod.nurgling_count or 0
 mod.on_game_state_changed = function(status, state_name)
     if state_name == "StateIngame" and status == "enter" then
         local level_name = Managers.level_transition_handler:get_current_level_keys()
-        if level_name == "inn_level" then
+        if string.find(level_name, "inn_level") then
             local nurgling_breed = Breeds['critter_nurgling']
             local spawned_unit = Managers.state.conflict:spawn_queued_unit(nurgling_breed, init_spawn_pos, rot, nurgling_breed.debug_spawn_category or "debug_spawn", 
                 nil, nil, nurgling_breed.debug_spawn_optional_data)
@@ -49,7 +49,7 @@ end
 
 mod:hook(StatisticsUtil, "register_kill", function(func, victim_unit, damage_data, statistics_db, is_server)
     local level_name = Managers.level_transition_handler:get_current_level_keys()
-    if level_name == "inn_level" then
+    if string.find(level_name, "inn_level") then
         local breed_killed = Unit.get_data(victim_unit, "breed")
         local breed_killed_name = breed_killed.name
         breed_killed.debug_spawn_optional_data = breed_killed.debug_spawn_optional_data or {}
