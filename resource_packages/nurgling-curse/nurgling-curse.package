@@ -1,0 +1,11 @@
+mod = [
+	"nurgling-curse"
+]
+
+package = [
+	"resource_packages/nurgling-curse/nurgling-curse"
+]
+
+lua = [
+	"scripts/mods/nurgling-curse/*"
+]
